@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.unicam.cs.asdl2526.es4sol;
+package it.unicam.cs.asdl.es4sol;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,8 +18,9 @@ import org.junit.jupiter.api.Test;
 class AulaTest {
 
     /**
-     * Test method for {@link it.unicam.cs.asdl1920.mp1.Aula#hashCode()}.
+     * Test method for {@link Aula#hashCode()}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testHashCode() {
         PresenceFacility f1 = new PresenceFacility("HDMI",
@@ -44,8 +45,9 @@ class AulaTest {
 
     /**
      * Test method for
-     * {@link it.unicam.cs.asdl1920.mp1.Aula#Aula(String, String)}.
+     * {@link Aula#Aula(String, String)}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testAulaStringString() {
         // Testa se il controllo di null è corretto
@@ -67,9 +69,10 @@ class AulaTest {
 
     /**
      * Test method for
-     * {@link it.unicam.cs.asdl1920.mp1.Aula#equals(Object)}.
+     * {@link Aula#equals(Object)}.
      */
     @SuppressWarnings("unlikely-arg-type")
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testEqualsObject() {
         PresenceFacility f1 = new PresenceFacility("HDMI",
@@ -104,8 +107,9 @@ class AulaTest {
 
     /**
      * Test method for
-     * {@link it.unicam.cs.asdl1920.mp1.Aula#compareTo(it.unicam.cs.asdl1920.mp1.Aula)}.
+     * {@link Aula#compareTo(Aula)}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testCompareTo() {
         Aula a = new Aula("LA1", "Polo Lodovici Piano Terra");
@@ -118,8 +122,9 @@ class AulaTest {
     }
 
     /**
-     * Test method for {@link it.unicam.cs.asdl1920.mp1.Aula#getFacilities()}.
+     * Test method for {@link Aula#getFacilities()}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testGetFacilities() {
         PresenceFacility f1 = new PresenceFacility("HDMI",
@@ -143,8 +148,9 @@ class AulaTest {
     }
 
     /**
-     * Test method for {@link it.unicam.cs.asdl1920.mp1.Aula#getNome()}.
+     * Test method for {@link Aula#getNome()}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testGetNome() {
         Aula a = new Aula("LA1", "Polo Lodovici Piano Terra");
@@ -152,8 +158,9 @@ class AulaTest {
     }
 
     /**
-     * Test method for {@link it.unicam.cs.asdl1920.mp1.Aula#getLocation()}.
+     * Test method for {@link Aula#getLocation()}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testGetLocation() {
         Aula a = new Aula("LA1", "Polo Lodovici Piano Terra");
@@ -161,8 +168,9 @@ class AulaTest {
     }
 
     /**
-     * Test method for {@link it.unicam.cs.asdl1920.mp1.Aula#getPrenotazioni()}.
+     * Test method for {@link Aula#getPrenotazioni()}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testGetPrenotazioni() {
         Aula a = new Aula("LA1", "Polo Lodovici Piano Terra");
@@ -181,8 +189,9 @@ class AulaTest {
 
     /**
      * Test method for
-     * {@link it.unicam.cs.asdl1920.mp1.Aula#addFacility(it.unicam.cs.asdl1920.mp1.Facility)}.
+     * {@link Aula#addFacility(Facility)}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testAddFacility() {
         PresenceFacility f1 = new PresenceFacility("HDMI",
@@ -224,8 +233,9 @@ class AulaTest {
 
     /**
      * Test method for
-     * {@link it.unicam.cs.asdl1920.mp1.Aula#isFree(it.unicam.cs.asdl1920.mp1.TimeSlot)}.
+     * {@link Aula#isFree(TimeSlot)}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testIsFree() {
         Aula a = new Aula("LA1", "Polo Lodovici Piano Terra");
@@ -250,8 +260,13 @@ class AulaTest {
 
     /**
      * Test method for
-     * {@link it.unicam.cs.asdl1920.mp1.Aula#satisfiesFacilities(java.util.Set)}.
+     *
+     *
+     *
+     *
+     * {@link Aula#satisfiesFacilities(Facility[])}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testSatisfiesFacilities() {
         Aula a = new Aula("LA1", "Polo Lodovici Piano Terra");
@@ -285,8 +300,9 @@ class AulaTest {
 
     /**
      * Test method for
-     * {@link it.unicam.cs.asdl1920.mp1.Aula#addPrenotazione(it.unicam.cs.asdl1920.mp1.TimeSlot, String, String)}.
+     * {@link Aula#addPrenotazione(TimeSlot, String, String)}.
      */
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testAddPrenotazione() {
         Aula a = new Aula("LA1", "Polo Lodovici Piano Terra");

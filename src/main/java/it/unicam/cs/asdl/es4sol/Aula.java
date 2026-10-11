@@ -1,11 +1,13 @@
-package it.unicam.cs.asdl2526.es4sol;
+package it.unicam.cs.asdl.es4sol;
 
 /**
- * Un oggetto della classe aula rappresenta una certa aula con le sue facilities
- * e le sue prenotazioni.
- * 
- * @author Template: Luca Tesei, Implementation: Collective
- *
+ * Modella un'aula identificata univocamente dal nome, dotata di servizi e prenotazioni.
+     * <p>La classe mostra come gestire collezioni mediante array a capacità variabile:
+     * {@code numFacilities} e {@code numPrenotazioni} indicano la parte occupata,
+     * mentre {@code array.length} rappresenta la capacità allocata. L'inserimento
+     * deve evitare duplicati e ampliare l'array quando è pieno.
+     * <p>Il tipo {@link Facility} consente di memorizzare oggetti di sottoclassi
+     * differenti nello stesso array e invocare polimorficamente {@code satisfies}.
  */
 public class Aula implements Comparable<Aula> {
 
@@ -14,6 +16,7 @@ public class Aula implements Comparable<Aula> {
      * di inserire una facility e l'array è pieno questo viene raddoppiato. La
      * costante è protected solo per consentirne l'accesso ai test JUnit
      */
+    /** Capacità iniziale dell'array delle facility; distinta dalla dimensione logica. */
     protected static final int INIT_NUM_FACILITIES = 5;
 
     /*
@@ -22,6 +25,7 @@ public class Aula implements Comparable<Aula> {
      * raddoppiato. La costante è protected solo per consentirne l'accesso ai
      * test JUnit.
      */
+    /** Capacità iniziale dell'array delle prenotazioni; distinta dalla dimensione logica. */
     protected static final int INIT_NUM_PRENOTAZIONI = 100;
 
     // Identificativo unico di un'aula
@@ -38,6 +42,7 @@ public class Aula implements Comparable<Aula> {
      */
     private Facility[] facilities;
 
+    // Invariante: le prime numFacilities posizioni sono occupate.
     // numero corrente di facilities inserite
     private int numFacilities;
 
@@ -50,21 +55,16 @@ public class Aula implements Comparable<Aula> {
      */
     private Prenotazione[] prenotazioni;
 
+    // Invariante: le prime numPrenotazioni posizioni sono occupate.
     // numero corrente di prenotazioni inserite
     private int numPrenotazioni;
 
     /**
-     * Costruisce una certa aula con nome e location. Il set delle facilities è
-     * vuoto. L'aula non ha inizialmente nessuna prenotazione.
-     * 
-     * @param nome
-     *                     il nome dell'aula
-     * @param location
-     *                     la location dell'aula
-     * 
-     * @throws NullPointerException
-     *                                  se una qualsiasi delle informazioni
-     *                                  richieste è nulla
+     * Costruisce un'aula senza servizi e senza prenotazioni.
+     * Inizializza due array con capacità rispettivamente 5 e 100, e contatori a zero.
+     * @param nome identificativo logico dell'aula
+     * @param location collocazione dell'aula
+     * @throws NullPointerException se nome o location sono null
      */
     public Aula(String nome, String location) {
         if (nome == null)
@@ -81,15 +81,21 @@ public class Aula implements Comparable<Aula> {
         this.numPrenotazioni = 0;
     }
 
-    /*
-     * Ridefinire in accordo con equals
+    /**
+     * Calcola l'hash usando esclusivamente il nome, come in {@code equals}.
+     * @return codice hash dell'identificativo dell'aula
      */
     @Override
     public int hashCode() {
         return this.nome.hashCode();
     }
 
-    /* Due aule sono uguali se e solo se hanno lo stesso nome */
+    /**
+     * Confronta l'identità logica: due aule sono uguali se hanno lo stesso nome.
+     * Location, servizi e prenotazioni non partecipano al confronto.
+     * @param obj oggetto da confrontare
+     * @return true se obj è un'aula con lo stesso nome
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -103,75 +109,88 @@ public class Aula implements Comparable<Aula> {
         return false;
     }
 
-    /* L'ordinamento naturale si basa sul nome dell'aula */
+    /**
+     * Ordina le aule lessicograficamente per nome, coerentemente con equals.
+     * @param o altra aula
+     * @return negativo, zero o positivo secondo l'ordine dei nomi
+     * @throws NullPointerException se o è null
+     */
     @Override
     public int compareTo(Aula o) {
         return this.nome.compareTo(o.nome);
     }
 
     /**
-     * @return the facilities
+     * Restituisce l'array delle facility, inclusa la capacità inutilizzata.
+     * <p><b>Attenzione didattica:</b> viene esposto direttamente l'array interno:
+     * modificarlo dall'esterno può compromettere gli invarianti della classe.
+     * È una scelta del contratto originale, non un modello di incapsulamento.
+     * @return array interno; sono occupate solo le prime {@code getNumeroFacilities()} posizioni
      */
     public Facility[] getFacilities() {
         return this.facilities;
     }
 
     /**
-     * @return il numero corrente di facilities
+     * Restituisce il numero di facility effettivamente memorizzate.
+     * @return numero di posizioni occupate, non capacità dell'array
      */
     public int getNumeroFacilities() {
         return this.numFacilities;
     }
 
     /**
-     * @return the nome
+     * Restituisce l'identificativo logico dell'aula.
+     * @return nome dell'aula
      */
     public String getNome() {
         return this.nome;
     }
 
     /**
-     * @return the location
+     * Restituisce la collocazione dell'aula.
+     * @return location
      */
     public String getLocation() {
         return this.location;
     }
 
     /**
-     * @return the prenotazioni
+     * Restituisce l'array interno delle prenotazioni, compresa la capacità libera.
+     * <p>Come {@code getFacilities()}, espone un riferimento mutabile interno:
+     * gli utenti dell'API non devono alterarne gli elementi.
+     * @return array interno con le prime {@code getNumeroPrenotazioni()} posizioni occupate
      */
     public Prenotazione[] getPrenotazioni() {
         return this.prenotazioni;
     }
 
     /**
-     * @return il numero corrente di prenotazioni
+     * Restituisce il numero di prenotazioni registrate.
+     * @return numero di posizioni occupate
      */
     public int getNumeroPrenotazioni() {
         return this.numPrenotazioni;
     }
 
     /**
-     * Aggiunge una faciltity a questa aula. Controlla se la facility è già
-     * presente, nel qual caso non la inserisce.
-     * 
-     * @param f
-     *              la facility da aggiungere
-     * @return true se la facility non era già presente e quindi è stata
-     *         aggiunta, false altrimenti
-     * @throws NullPointerException
-     *                                  se la facility passata è nulla
+     * Aggiunge una facility soltanto se non è già presente una facility uguale.
+     * <p>La ricerca usa {@code equals}, non {@code ==}; l'array viene raddoppiato
+     * quando il numero di elementi coincide con la capacità.
+     * @param f facility da aggiungere
+     * @return true se inserita, false se già presente
+     * @throws NullPointerException se f è null
      */
     public boolean addFacility(Facility f) {
         /*
          * Nota: attenzione! Per controllare se una facility è già presente
          * bisogna usare il metodo equals della classe Facility.
-         * 
-         * Nota: attenzione bis! Si noti che per le sottoclassi di Facility non
+     * Nota: attenzione bis! Si noti che per le sottoclassi di Facility non
          * è richiesto di ridefinire ulteriormente il metodo equals...
          */
         if (f == null)
             throw new NullPointerException("Aggiunta di una facility null");
+        // Ricerca lineare sulle sole posizioni occupate: O(n).
         // Cerco se la facility è già presente
         for (int i = 0; i < this.numFacilities; i++)
             if (this.facilities[i].equals(f))
@@ -183,6 +202,7 @@ public class Aula implements Comparable<Aula> {
             this.facilities[this.numFacilities] = f;
             this.numFacilities++;
         } else {
+            // Il raddoppio copia i riferimenti, non gli oggetti.
             // non c'è spazio, raddoppio l'array
             this.facilities = (Facility[]) raddoppia(this.facilities);
             // ora c'è spazio e inserisco
@@ -193,16 +213,11 @@ public class Aula implements Comparable<Aula> {
     }
 
     /**
-     * Determina se l'aula è libera in un certo time slot.
-     * 
-     * 
-     * @param ts
-     *               il time slot da controllare
-     * 
-     * @return true se l'aula risulta libera per tutto il periodo del time slot
-     *         specificato
-     * @throws NullPointerException
-     *                                  se il time slot passato è nullo
+     * Verifica se l'aula non ha prenotazioni sovrapposte all'intervallo dato.
+     * <p>Si usa la soglia definita da {@link TimeSlot#overlapsWith(TimeSlot)}.
+     * @param ts intervallo richiesto
+     * @return true se nessuna prenotazione supera la soglia di sovrapposizione
+     * @throws NullPointerException se ts è null
      */
     public boolean isFree(TimeSlot ts) {
         if (ts == null)
@@ -217,22 +232,18 @@ public class Aula implements Comparable<Aula> {
     }
 
     /**
-     * Determina se questa aula soddisfa tutte le facilities richieste
-     * rappresentate da un certo insieme dato.
-     * 
-     * @param requestedFacilities
-     *                                l'insieme di facilities richieste da
-     *                                soddisfare, sono da considerare solo le
-     *                                posizioni diverse da null
-     * @return true se e solo se tutte le facilities di
-     *         {@code requestedFacilities} sono soddisfatte da questa aula.
-     * @throws NullPointerException
-     *                                  se il set di facility richieste è nullo
+     * Verifica se ogni servizio richiesto è soddisfatto da almeno un servizio dell'aula.
+     * <p>Le posizioni null dell'array di richieste sono ignorate. Il metodo
+     * invoca {@code satisfies} sulle istanze effettive: esempio di dispatch dinamico.
+     * @param requestedFacilities richieste; possono contenere posizioni null
+     * @return true se tutte le richieste non nulle sono soddisfatte
+     * @throws NullPointerException se l'array è null
      */
     public boolean satisfiesFacilities(Facility[] requestedFacilities) {
         if (requestedFacilities == null)
             throw new NullPointerException(
                     "Il set di facility richieste è nullo");
+        // Dispatch dinamico: satisfies dipende dalla sottoclasse concreta.
         // provo a soddisfare tutte le facilities richieste
         for (int i = 0; i < requestedFacilities.length; i++) {
             // ignoro eventuali posizioni null
@@ -256,18 +267,14 @@ public class Aula implements Comparable<Aula> {
     }
 
     /**
-     * Prenota l'aula controllando eventuali sovrapposizioni.
-     * 
-     * @param ts
-     * @param docente
-     * @param motivo
-     * @throws IllegalArgumentException
-     *                                      se la prenotazione comporta una
-     *                                      sovrapposizione con un'altra
-     *                                      prenotazione nella stessa aula.
-     * @throws NullPointerException
-     *                                      se una qualsiasi delle informazioni
-     *                                      richieste è nulla.
+     * Registra una prenotazione solo se non si sovrappone a quelle esistenti.
+     * <p>Se necessario raddoppia l'array; in caso di rifiuto non deve aumentare
+     * il contatore né inserire una prenotazione parziale.
+     * @param ts intervallo da prenotare
+     * @param docente nome del docente
+     * @param motivo motivo della prenotazione
+     * @throws NullPointerException se uno degli argomenti è null
+     * @throws IllegalArgumentException se l'intervallo si sovrappone a una prenotazione
      */
     public void addPrenotazione(TimeSlot ts, String docente, String motivo) {
         if (ts == null)
@@ -279,6 +286,7 @@ public class Aula implements Comparable<Aula> {
         if (motivo == null)
             throw new NullPointerException(
                     "Motivo della nuova prenotazione null");
+        // Validiamo prima di mutare lo stato interno.
         // Cerco se la prenotazione può essere effettuata
         for (int i = 0; i < this.numPrenotazioni; i++)
             if (this.prenotazioni[i].getTimeSlot().overlapsWith(ts))
@@ -291,6 +299,7 @@ public class Aula implements Comparable<Aula> {
                     docente, motivo);
             this.numPrenotazioni++;
         } else {
+            // Il raddoppio copia i riferimenti, non gli oggetti.
             // non c'è spazio, raddoppio l'array
             this.prenotazioni = (Prenotazione[]) raddoppia(this.prenotazioni);
             // ora c'è spazio e inserisco

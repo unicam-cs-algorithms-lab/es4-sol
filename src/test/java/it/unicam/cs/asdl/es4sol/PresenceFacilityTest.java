@@ -1,10 +1,12 @@
-package it.unicam.cs.asdl2526.es4sol;
+package it.unicam.cs.asdl.es4sol;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
 class PresenceFacilityTest {
+
+    // Test del contratto pubblico e dei suoi casi limite.
 
     @Test
     final void testSatisfies() {
@@ -31,6 +33,8 @@ class PresenceFacilityTest {
         assertFalse(f4.satisfies(f2));
     }
 
+    // Test del contratto pubblico e dei suoi casi limite.
+
     @Test
     final void testPresenceFacility() {
      // Testa se il controllo di null è corretto
@@ -42,6 +46,8 @@ class PresenceFacilityTest {
                 () -> new PresenceFacility(null, null));
     }
 
+    // Test del contratto pubblico e dei suoi casi limite.
+
     @Test
     final void testHashCode() {
         PresenceFacility f1 = new PresenceFacility("HDMI", "Presenza di un proiettore HDMI");
@@ -52,11 +58,16 @@ class PresenceFacilityTest {
     }
 
 
+    // Test del contratto pubblico e dei suoi casi limite.
+
+
     @Test
     final void testGetCodice() {
         PresenceFacility f1 = new PresenceFacility("HDMI", "Presenza di un proiettore HDMI");
         assertEquals("HDMI", f1.getCodice());
     }
+
+    // Test del contratto pubblico e dei suoi casi limite.
 
     @Test
     final void testGetDescrizione() {
@@ -65,6 +76,7 @@ class PresenceFacilityTest {
     }
 
     @SuppressWarnings("unlikely-arg-type")
+    // Test del contratto pubblico e dei suoi casi limite.
     @Test
     final void testEqualsObject() {
         PresenceFacility f1 = new PresenceFacility("HDMI", "Presenza di un proiettore HDMI");
