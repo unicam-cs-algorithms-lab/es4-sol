@@ -63,7 +63,7 @@ Per generare la Javadoc dalla radice del progetto:
 
 ```bash
 javadoc -encoding UTF-8 -charset UTF-8 -docencoding UTF-8 -d docs \
-  -sourcepath src/main/java -subpackages it.unicam.cs.asdl2526.es4
+  -sourcepath src/main/java -subpackages it.unicam.cs.asdl.es4
 ```
 
 Le Javadoc descrivono il contratto pubblico; i commenti ordinari spiegano scelte algoritmiche e invarianti.
